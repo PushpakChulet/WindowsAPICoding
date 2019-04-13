@@ -1,71 +1,75 @@
-﻿#include <windows.h>
+#include<Windows.h>
+
+
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-	PSTR szCmdLine, int iCmdShow)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
-	static TCHAR szAppName[] = TEXT("Punkstar");
+	WNDCLASSEX wndclass;
 	HWND hwnd;
 	MSG msg;
-	WNDCLASSEX wndclass;
+	TCHAR szAppName[] = TEXT("MyApp");
+
+
+
+	wndclass.cbSize = sizeof(WNDCLASSEX);
 	wndclass.style = CS_HREDRAW | CS_VREDRAW;
-	wndclass.lpfnWndProc = WndProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
+	wndclass.lpfnWndProc = WndProc;
 	wndclass.hInstance = hInstance;
 	wndclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+	wndclass.lpszClassName = szAppName;
 	wndclass.lpszMenuName = NULL;
-	wndclass.lpszClassName = szAppName;	RegisterClassEx(&wndclass);
-	hwnd = CreateWindow(szAppName, // window class name
-		TEXT("The NEW Program"), // window caption
-		WS_OVERLAPPEDWINDOW, // window style
-		CW_USEDEFAULT, // initial x position
-		CW_USEDEFAULT, // initial y position
-		CW_USEDEFAULT, // initial x size
-		CW_USEDEFAULT, // initial y size
-		NULL, // parent window handle
-		NULL, // window menu handle
-		hInstance, // program instance handle
-		NULL); // creation parameters
-	ShowWindow(hwnd, iCmdShow);
+	wndclass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+
+
+	RegisterClassEx(&wndclass);
+
+	hwnd = CreateWindow(szAppName,
+		TEXT("Pushpak's Window"),
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		NULL,
+		NULL,
+		hInstance,
+		NULL);
+
+	ShowWindow(hwnd, SW_SHOWMINIMIZED);
 	UpdateWindow(hwnd);
+
+
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
-	return msg.wParam;
+	return((int)msg.wParam);
 }
-LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
-	HDC hdc;
-	PAINTSTRUCT ps;
-	RECT rect;
-	switch (message)
+	switch (iMsg)
 	{
-//	case WM_CREATE:
-//		PlaySound(TEXT("hellowin.wav"), NULL, SND_FILENAME | SND_ASYNC);
-/*		return 0;
-	case WM_PAINT:
-		hdc = BeginPaint(hwnd, &ps);
-		GetClientRect(hwnd, &rect);
-		DrawText(hdc, TEXT("Hello, Windows 98!"), −1, &rect,
-			DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-		EndPaint(hwnd, &ps);
-		return 0;*/
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
 		case VK_SPACE:
-			MessageBox(hwnd,TEXT("ggfggg"),TEXT("jjjjjjj"),MB_OK);
+			MessageBox(hwnd, TEXT("Gangadhar hi shaktiman hai"), TEXT("Important"), MB_OK);
+			break;
+		case VK_SHIFT:
+			MessageBox(hwnd, TEXT("Shift mat use kro space use kro"), TEXT("Use Space"), MB_OK);
 			break;
 		}
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
-		return 0;
+		break;
 	}
-	return DefWindowProc(hwnd, message, wParam, lParam);
+	return(DefWindowProc(hwnd, iMsg, wParam, lParam));
 }
+
